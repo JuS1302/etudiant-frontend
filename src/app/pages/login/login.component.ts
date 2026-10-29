@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MaterialModule } from '../../shared/material.module';
 import { UserService } from '../../core/service/user.service';
@@ -18,11 +19,11 @@ export class LoginComponent implements OnInit {
   private userService = inject(UserService);
   private formBuilder = inject(FormBuilder);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
   loginForm: FormGroup = new FormGroup({});
   submitted: boolean = false;
   isLoading: boolean = false;
   errorMessage: string | null = null;
-  token: string | null = null;
 
   /**
    * Crée le formulaire avec les deux champs obligatoires.
@@ -43,6 +44,7 @@ export class LoginComponent implements OnInit {
 
   /**
    * Envoie les identifiants au back-end et gère les états chargement / erreur / succès.
+   * En cas de succès, range le token et redirige vers la liste des étudiants.
    */
   onSubmit(): void {
     this.submitted = true;
@@ -56,15 +58,14 @@ export class LoginComponent implements OnInit {
 
     this.isLoading = true;
     this.errorMessage = null;
-    this.token = null;
 
     this.userService.login(credentials)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
           this.isLoading = false;
-          this.token = response.token;
-          localStorage.setItem('token', response.token);
+          this.userService.saveToken(response.token);
+          this.router.navigate(['/students']);
         },
         error: (error: HttpErrorResponse) => {
           this.isLoading = false;

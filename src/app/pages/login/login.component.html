@@ -32,13 +32,6 @@
         <div class="alert alert-danger">{{ errorMessage }}</div>
       }
 
-      @if (token) {
-        <div class="alert alert-success">
-          Connexion réussie ! Token reçu :
-          <code class="d-block text-break">{{ token }}</code>
-        </div>
-      }
-
       <div class="text-center">
         <button class="btn btn-primary" [disabled]="isLoading">
           {{ isLoading ? 'Connexion...' : 'Login' }}

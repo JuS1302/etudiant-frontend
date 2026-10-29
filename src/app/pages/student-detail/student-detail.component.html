@@ -1,0 +1,25 @@
+<div class="card m-3">
+  <h5 class="card-header">Détail de l'étudiant</h5>
+  <div class="card-body">
+    @if (isLoading) {
+      <p>Chargement...</p>
+    }
+
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
+
+    @if (student) {
+      <p><strong>Prénom :</strong> {{ student.firstName }}</p>
+      <p><strong>Nom :</strong> {{ student.lastName }}</p>
+      <p><strong>Email :</strong> {{ student.email }}</p>
+      <p><strong>Créé le :</strong> {{ student.createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
+      <p><strong>Modifié le :</strong> {{ student.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</p>
+
+      <a class="btn btn-primary mr-1" [routerLink]="['/students', student.id, 'edit']">Modifier</a>
+      <button class="btn btn-danger mr-1" (click)="deleteStudent()">Supprimer</button>
+    }
+
+    <a class="btn btn-secondary" routerLink="/students">Retour à la liste</a>
+  </div>
+</div>
