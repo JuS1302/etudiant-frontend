@@ -69,6 +69,43 @@
           },
           "defaultConfiguration": "development"
         },
+        "build-e2e": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "./coverage.webpack.js"
+            },
+            "outputPath": "dist/etudiant-frontend-e2e",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
+              "src/styles.css"
+            ],
+            "scripts": [],
+            "optimization": false,
+            "sourceMap": true,
+            "namedChunks": true
+          }
+        },
+        "serve-e2e": {
+          "builder": "@angular-builders/custom-webpack:dev-server",
+          "options": {
+            "buildTarget": "etudiant-frontend:build-e2e",
+            "proxyConfig": "proxy.conf.json",
+            "port": 4200
+          }
+        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
         }
