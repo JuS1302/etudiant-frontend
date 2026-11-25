@@ -1,0 +1,10 @@
+{
+  "include": ["src/app/**/*.ts"],
+  "exclude": [
+    "src/app/**/*.spec.ts",
+    "src/app/core/models/**",
+    "src/app/core/service/user-mock.service.ts"
+  ],
+  "reporter": ["html", "text-summary"],
+  "report-dir": "coverage-e2e"
+}

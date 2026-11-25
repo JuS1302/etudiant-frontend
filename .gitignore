@@ -45,3 +45,6 @@ Thumbs.db
 /cypress/screenshots
 /cypress/videos
 /cypress/downloads
+/cypress/coverage
+/coverage-e2e
+/.nyc_output
