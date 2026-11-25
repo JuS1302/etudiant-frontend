@@ -1,0 +1,87 @@
+Résultat des tests front - 25/11/2026
+
+=== 1. Tests unitaires et d'intégration (Jest) - npx jest ===
+
+PASS src/app/core/service/user.service.spec.ts
+    ✓ should be created (72 ms)
+    ✓ register() envoie l'agent en POST sur /api/register (25 ms)
+    ✓ login() envoie les identifiants et renvoie le token reçu (25 ms)
+    ✓ saveToken() range le token, que getToken() retrouve (19 ms)
+    ✓ isLoggedIn() renvoie true quand un token est rangé (14 ms)
+    ✓ isLoggedIn() renvoie false quand aucun token n'est rangé (9 ms)
+    ✓ logout() supprime le token (3 ms)
+PASS src/app/app.component.spec.ts
+    ✓ should create the app (192 ms)
+    ✓ should have the 'etudiant-frontend' title (52 ms)
+    ✓ affiche "Étudiants" et "Déconnexion" quand l'utilisateur est connecté (45 ms)
+    ✓ affiche "Connexion" et "Inscription" quand l'utilisateur n'est pas connecté (46 ms)
+    ✓ logout() déconnecte l'utilisateur et renvoie vers /login (14 ms)
+PASS src/app/pages/student-list/student-list.component.spec.ts
+    ✓ charge les étudiants à l'ouverture de l'écran (312 ms)
+    ✓ affiche une ligne par étudiant dans le tableau (68 ms)
+    ✓ supprime un étudiant après confirmation et le retire de la liste (94 ms)
+PASS src/app/pages/student-detail/student-detail.component.spec.ts
+    ✓ lit l'id dans l'adresse et charge l'étudiant (317 ms)
+    ✓ affiche les informations de l'étudiant (121 ms)
+    ✓ supprime l'étudiant après confirmation puis revient à la liste (71 ms)
+PASS src/app/core/interceptor/auth.interceptor.spec.ts
+    ✓ ajoute le header Authorization quand un token est rangé (32 ms)
+    ✓ n'ajoute pas de header quand aucun token n'est rangé (38 ms)
+PASS src/app/core/service/student.service.spec.ts
+    ✓ getAll() fait un GET sur /api/students et renvoie la liste (20 ms)
+    ✓ getById() fait un GET sur /api/students/1 et renvoie l'étudiant (5 ms)
+    ✓ create() fait un POST sur /api/students avec le StudentRequest (15 ms)
+    ✓ update() fait un PUT sur /api/students/1 avec le StudentRequest (11 ms)
+    ✓ delete() fait un DELETE sur /api/students/1 (7 ms)
+PASS src/app/core/guard/auth.guard.spec.ts
+    ✓ laisse passer quand l'utilisateur est connecté (12 ms)
+    ✓ renvoie vers /login quand l'utilisateur n'est pas connecté (7 ms)
+PASS src/app/pages/login/login.component.spec.ts (6.171 s)
+    ✓ should create (190 ms)
+    ✓ affiche les champs login et mot de passe (39 ms)
+    ✓ envoie les identifiants, range le token et redirige vers /students (36 ms)
+PASS src/app/pages/register/register.component.spec.ts (6.221 s)
+    ✓ should create (205 ms)
+    ✓ envoie le nouvel agent puis redirige vers /login (54 ms)
+    ✓ onReset() vide le formulaire (45 ms)
+PASS src/app/pages/student-form/student-form.component.spec.ts (6.321 s)
+      ✓ affiche un formulaire vide, en mode ajouter (211 ms)
+      ✓ crée l'étudiant puis affiche son détail (32 ms)
+      ✓ charge l'étudiant et pré-remplit le formulaire (25 ms)
+      ✓ modifie l'étudiant puis affiche son détail (20 ms)
+
+Test Suites: 10 passed, 10 total
+Tests:       37 passed, 37 total
+
+Couverture Jest (rapport : couverture-jest/index.html) :
+Statements   : 84.13% ( 228/271 )
+Branches     : 23.52% ( 8/34 )
+Functions    : 75.47% ( 40/53 )
+Lines        : 83.26% ( 209/251 )
+
+=== 2. Tests E2E (Cypress) - npm run start:e2e puis npm run e2e ===
+
+  Running:  login.cy.ts                                                                     (1 of 3)
+    ✓ connecte l'agent puis affiche la liste des étudiants (1258ms)
+    ✓ déconnecte l'agent et le renvoie vers la page de connexion (572ms)
+    ✓ renvoie vers la page de connexion si on ouvre /students sans être connecté (468ms)
+  3 passing (3s)
+  Running:  register.cy.ts                                                                  (2 of 3)
+    ✓ inscrit un agent puis redirige vers la page de connexion (1760ms)
+  1 passing (4s)
+  Running:  students.cy.ts                                                                  (3 of 3)
+    ✓ affiche la liste des étudiants (2660ms)
+    ✓ ajoute un étudiant puis affiche son détail (2431ms)
+    ✓ affiche le détail d'un étudiant (1400ms)
+    ✓ modifie un étudiant puis affiche son détail (4091ms)
+    ✓ supprime un étudiant depuis la liste (1897ms)
+    ✓ supprime un étudiant depuis son détail puis revient à la liste (2221ms)
+  6 passing (16s)
+
+✔  All specs passed!                        00:23       10       10        -        -        -  
+
+Couverture Cypress (rapport : couverture-cypress/index.html) :
+Statements   : 83.7% ( 149/178 )
+Branches     : 53.84% ( 35/65 )
+Functions    : 82.25% ( 51/62 )
+Lines        : 83.13% ( 138/166 )
