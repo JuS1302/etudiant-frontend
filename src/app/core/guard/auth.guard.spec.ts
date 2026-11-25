@@ -37,10 +37,10 @@ describe('authGuard', () => {
     userServiceMock.isLoggedIn.mockReturnValue(false);
 
     // WHEN
-    const result = runGuard() as UrlTree;
+    const redirection = runGuard() as UrlTree;
 
     // THEN : le guard renvoie l'adresse /login au lieu de laisser passer
     const router = TestBed.inject(Router);
-    expect(router.serializeUrl(result)).toBe('/login');
+    expect(router.serializeUrl(redirection)).toBe('/login');
   });
 });

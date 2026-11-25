@@ -52,7 +52,7 @@ describe('UserService', () => {
     let receivedToken: string | undefined;
 
     // WHEN
-    service.login(credentials).subscribe(response => receivedToken = response.token);
+    service.login(credentials).subscribe(loginResponse => receivedToken = loginResponse.token);
 
     // THEN : POST sur /api/login, et le token de la réponse est bien transmis
     const request = httpMock.expectOne('/api/login');

@@ -60,17 +60,17 @@ describe('StudentService', () => {
   });
 
   it('create() fait un POST sur /api/students avec le StudentRequest', () => {
-    let createdStudent: Student | undefined;
+    let studentCreated: Student | undefined;
 
     // WHEN
-    service.create(marieRequest).subscribe(student => createdStudent = student);
+    service.create(marieRequest).subscribe(student => studentCreated = student);
 
     // THEN : le body envoyé est le StudentRequest, et on reçoit l'étudiant créé
     const request = httpMock.expectOne('/api/students');
     expect(request.request.method).toBe('POST');
     expect(request.request.body).toEqual(marieRequest);
     request.flush(marie);
-    expect(createdStudent).toEqual(marie);
+    expect(studentCreated).toEqual(marie);
   });
 
   it('update() fait un PUT sur /api/students/1 avec le StudentRequest', () => {

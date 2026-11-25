@@ -48,10 +48,10 @@ describe('StudentListComponent', () => {
   it('affiche une ligne par étudiant dans le tableau', () => {
     // THEN : 2 lignes dans le corps du tableau, avec les noms des étudiants
     const page: HTMLElement = fixture.nativeElement;
-    const rows = page.querySelectorAll('tbody tr');
-    expect(rows.length).toBe(2);
-    expect(rows[0].textContent).toContain('Marie');
-    expect(rows[1].textContent).toContain('Pierre');
+    const tableRows = page.querySelectorAll('tbody tr');
+    expect(tableRows.length).toBe(2);
+    expect(tableRows[0].textContent).toContain('Marie');
+    expect(tableRows[1].textContent).toContain('Pierre');
   });
 
   it('supprime un étudiant après confirmation et le retire de la liste', () => {

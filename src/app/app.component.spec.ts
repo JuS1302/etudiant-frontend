@@ -19,14 +19,14 @@ describe('AppComponent', () => {
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    const appComponent = fixture.componentInstance;
+    expect(appComponent).toBeTruthy();
   });
 
   it(`should have the 'etudiant-frontend' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('etudiant-frontend');
+    const appComponent = fixture.componentInstance;
+    expect(appComponent.title).toEqual('etudiant-frontend');
   });
 
   it('affiche "Étudiants" et "Déconnexion" quand l\'utilisateur est connecté', () => {
