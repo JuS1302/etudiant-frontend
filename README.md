@@ -1,59 +1,102 @@
 # EtudiantFrontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.16.
+Front-end Angular de l'application EtuBibliothèque : les agents de la bibliothèque s'inscrivent, se connectent, puis gèrent les étudiants (liste, détail, ajout, modification, suppression).
 
-## Development server
+Le back-end Spring Boot est dans le dépôt [etudiant-backend](https://github.com/JuS1302/etudiant-backend).
 
-To start a local development server, run:
+Projet généré avec [Angular CLI](https://github.com/angular/angular-cli) version 19.2.16.
 
-```bash
-ng serve
-```
+## Pré-requis
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Node.js (version LTS) et npm
+- Le back-end lancé sur `http://localhost:8080` pour utiliser l'application (pas nécessaire pour les tests)
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Installation
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Lancer l'application
 
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+Ouvrir ensuite `http://localhost:4200/`. Les appels à `/api` sont redirigés vers le back-end (`http://localhost:8080`) grâce au fichier `proxy.conf.json`.
 
-To build the project run:
+## Écrans
+
+| Adresse | Écran | Accès |
+| --- | --- | --- |
+| `/register` | inscription d'un agent | libre |
+| `/login` | connexion | libre |
+| `/students` | liste des étudiants | connecté |
+| `/students/new` | ajout d'un étudiant | connecté |
+| `/students/{id}` | détail d'un étudiant | connecté |
+| `/students/{id}/edit` | modification d'un étudiant | connecté |
+
+Après la connexion, le token JWT est rangé dans le `localStorage`. L'intercepteur `authInterceptor` l'ajoute à chaque requête (`Authorization: Bearer <token>`), et le guard `authGuard` renvoie vers `/login` si l'agent n'est pas connecté.
+
+## Tests unitaires et d'intégration (Jest)
 
 ```bash
-ng build
+npx jest
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Jest](https://jestjs.io/) test runner, use the following command:
+Résultat attendu : `Tests: 37 passed, 37 total`. Le rapport de couverture est généré dans `coverage/` :
 
 ```bash
-jest
+open coverage/index.html
 ```
 
-## Running end-to-end tests
+Les services, le guard, l'intercepteur et tous les composants sont testés. Les appels HTTP sont simulés avec `HttpTestingController`, et les services avec des mocks `jest.fn()`.
 
-For end-to-end (e2e) testing, run:
+## Tests end-to-end (Cypress)
+
+Les tests E2E ouvrent l'application dans un vrai navigateur et la pilotent comme un utilisateur. Les réponses de l'API sont simulées avec `cy.intercept()` : **le back-end n'a pas besoin de tourner**.
+
+1. Dans un premier terminal, lancer l'application **avec la mesure de couverture** :
+   ```bash
+   npm run start:e2e
+   ```
+   Attendre le message `Compiled successfully`.
+2. Dans un second terminal, lancer les tests :
+   ```bash
+   npm run e2e        # dans le terminal
+   npm run e2e:open   # ou dans la fenêtre Cypress, pour voir les tests en direct
+   ```
+   Résultat attendu : `All specs passed!` avec 10 tests.
+3. Ouvrir le rapport de couverture :
+   ```bash
+   open coverage-e2e/index.html
+   ```
+
+| Fichier | Tests | Parcours |
+| --- | --- | --- |
+| `cypress/e2e/register.cy.ts` | 1 | inscription |
+| `cypress/e2e/login.cy.ts` | 3 | connexion, déconnexion, protection par le guard |
+| `cypress/e2e/students.cy.ts` | 6 | liste, ajout, détail, modification, suppression (depuis la liste et depuis le détail) |
+
+`npm run start:e2e` construit l'application avec webpack et y ajoute des compteurs (instrumentation Istanbul) pour mesurer les lignes exécutées pendant les tests. Pour travailler normalement, utiliser `npm start`.
+
+## Rapports de tests et de couverture
+
+Une copie des derniers rapports est rangée dans le dossier [`rapports/`](rapports/) :
+
+- `rapports/resultats-tests.txt` : la liste des tests Jest et Cypress, et le résumé de la couverture
+- `rapports/couverture-jest/index.html` : la couverture des tests Jest
+- `rapports/couverture-cypress/index.html` : la couverture des tests Cypress
+
+| Tests | Nombre | Instructions | Lignes |
+| --- | --- | --- | --- |
+| Jest | 37 | 84,1 % | 83,3 % |
+| Cypress | 10 | 83,7 % | 83,1 % |
+
+## Construire l'application
 
 ```bash
-ng e2e
+npm run build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Les fichiers sont générés dans le dossier `dist/`.
